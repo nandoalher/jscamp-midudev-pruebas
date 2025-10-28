@@ -3,7 +3,8 @@ import { state } from './config.js'
 state.count++
 
 //console.log(state)
-
+const RESULTS_PER_PAGE = 3
+let number = 0;
 const filterLocation = document.querySelector('#filter-location');
 const filterTechnology = document.querySelector('#filter-technology');
 const filterExperience = document.querySelector('#filter-experience-level');
@@ -16,7 +17,6 @@ function searchJobs() {
   const locationValue = filterLocation.value
   const technologyValue = filterTechnology.value
 
-  console.log(experienceValue, locationValue, technologyValue)
 
   jobs.forEach(job => {
     const experiencie = job.getAttribute('data-nivel');
@@ -25,10 +25,13 @@ function searchJobs() {
 
     if ((technology.includes(technologyValue) || technologyValue === '') && (location === locationValue || locationValue === '') && (experiencie === experienceValue || experienceValue === '')) {
       job.classList.remove('is-hidden')
+      number++
     } else {
       job.classList.add('is-hidden')
     }
   })
+
+  let paginasPerFiltrado = Math.ceil(number / RESULTS_PER_PAGE);
 }
 
 filterExperience.addEventListener('change', searchJobs)

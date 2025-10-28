@@ -10,35 +10,61 @@ const filterExperience = document.querySelector('#filter-experience-level');
 
 const mensaje = document.querySelector('#filter-selected-value');
 
-filterTechnology.addEventListener('change', function () {
+function searchJobs() {
   const jobs = document.querySelectorAll('.job-listing-card')
-  const selectedValue = filterTechnology.value
+  const experienceValue = filterExperience.value
+  const locationValue = filterLocation.value
+  const technologyValue = filterTechnology.value
+
+  console.log(experienceValue, locationValue, technologyValue)
 
   jobs.forEach(job => {
-    // const modalidad = job.dataset.modalidad
-    const technology = job.getAttribute('data-technology')
-    console.log(technology)
-    const isShown = selectedValue === '' || technology.includes(selectedValue)  
-    job.classList.toggle('is-hidden', isShown === false)
+    const experiencie = job.getAttribute('data-nivel');
+    const location = job.getAttribute('data-modalidad');
+    const technology = job.getAttribute('data-technology');
+
+    if ((technology.includes(technologyValue) || technologyValue === '') && (location === locationValue || locationValue === '') && (experiencie === experienceValue || experienceValue === '')) {
+      job.classList.remove('is-hidden')
+    } else {
+      job.classList.add('is-hidden')
+    }
   })
+}
 
-})
+filterExperience.addEventListener('change', searchJobs)
+filterLocation.addEventListener('change', searchJobs)
+filterTechnology.addEventListener('change', searchJobs)
 
-filterLocation.addEventListener('change', function () { 
-  const jobs = document.querySelectorAll('.job-listing-card')
 
-  const selectedValue = filterLocation.value
 
-  if (selectedValue) {
-    mensaje.textContent = `Has seleccionado: ${selectedValue}`
-  } else {
-    mensaje.textContent = ''
-  }
+// CODIGO MEJORADO POR GROK
+
+/* function searchJobs() {
+  const jobs = document.querySelectorAll('.job-listing-card');
+  const experienceValue = filterExperience.value;
+  const locationValue = filterLocation.value;
+  const technologyValue = filterTechnology.value;
+
+  console.log(experienceValue, locationValue, technologyValue);
 
   jobs.forEach(job => {
-    // const modalidad = job.dataset.modalidad
-    const modalidad = job.getAttribute('data-modalidad')
-    const isShown = selectedValue === '' || selectedValue === modalidad
-    job.classList.toggle('is-hidden', isShown === false)
-  })
-})
+    const experiencie = job.getAttribute('data-nivel');
+    const location = job.getAttribute('data-modalidad');
+    const technology = job.getAttribute('data-technology');
+
+    // Nueva lógica: si el filtro está vacío, ignora esa condición (siempre true)
+    const matchesTechnology = (technologyValue === '') || technology.includes(technologyValue);
+    const matchesLocation = (locationValue === '') || (location === locationValue);
+    const matchesExperience = (experienceValue === '') || (experiencie === experienceValue);
+
+    if (matchesTechnology && matchesLocation && matchesExperience) {
+      job.classList.remove('is-hidden');
+    } else {
+      job.classList.add('is-hidden');
+    }
+  });
+}
+
+filterExperience.addEventListener('change', searchJobs);
+filterLocation.addEventListener('change', searchJobs);
+filterTechnology.addEventListener('change', searchJobs); */

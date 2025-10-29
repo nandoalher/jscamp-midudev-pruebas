@@ -8,6 +8,9 @@ let number = 0;
 const filterLocation = document.querySelector('#filter-location');
 const filterTechnology = document.querySelector('#filter-technology');
 const filterExperience = document.querySelector('#filter-experience-level');
+const $pagination = document.querySelector('.pagination');
+const $firstChild = $pagination.querySelector('a:last-child');
+console.log($firstChild);
 
 const mensaje = document.querySelector('#filter-selected-value');
 
@@ -16,7 +19,8 @@ function searchJobs() {
   const experienceValue = filterExperience.value
   const locationValue = filterLocation.value
   const technologyValue = filterTechnology.value
-
+  let dynamicElements = document.querySelectorAll('.dynamic-element');
+  dynamicElements.forEach(element => element.remove());
 
   jobs.forEach(job => {
     const experiencie = job.getAttribute('data-nivel');
@@ -32,6 +36,17 @@ function searchJobs() {
   })
 
   let paginasPerFiltrado = Math.ceil(number / RESULTS_PER_PAGE);
+  console.log(paginasPerFiltrado);
+
+  for(let i = 0; i < paginasPerFiltrado; i++) {
+      const $a = document.createElement("a");
+      $a.textContent = i + 1;
+      $a.href = "#";
+      $a.classList.add('dynamic-element');
+      $pagination.insertBefore($a, $firstChild);
+  }
+
+  number = 0; 
 }
 
 filterExperience.addEventListener('change', searchJobs)
